@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ship a real app in a day — School of AI Vibe Coding Workshop</title>
+<meta name="description" content="A free, hands-on 1-day workshop where students build and ship a real app with AI tools — Stitch and Antigravity. No coding experience required.">
+<link rel="icon" href="assets/logo-mark-white.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ---- School of AI tokens (Dark Lab) ---- */
+  :root{
+    --primary:#3B82F6; --primary-soft:#ADC6FF; --accent-2:#8B5CF6;
+    --blue-deep:#1D4ED8; --blue-2:#2563EB;
+    --bg:#0A0E18; --bg-alt:#060C13; --surface:#121A2B; --border:#243353;
+    --nav:#090F16; --text:#EEF3FB; --text-muted:#93A2BD;
+    --font-sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    --font-display:'Poppins','Inter',sans-serif;
+    --maxw:1080px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-sans);-webkit-font-smoothing:antialiased}
+  a{text-decoration:none;color:inherit}
+  img{display:block}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  .btn{display:inline-flex;align-items:center;gap:8px;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;border:none;transition:transform .15s ease,box-shadow .15s ease}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-primary{color:#fff;background:var(--primary);padding:16px 30px;box-shadow:0 14px 32px rgba(59,130,246,.45)}
+  .btn-ghost{color:var(--primary-soft);border:1px solid var(--border);padding:16px 26px;background:transparent}
+
+  /* ---- nav ---- */
+  header.nav{position:sticky;top:0;z-index:40;background:rgba(9,15,22,.82);backdrop-filter:blur(12px);border-bottom:1px solid #1a2438}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .brand{display:flex;align-items:center;gap:11px}
+  .brand .mark{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--primary),var(--accent-2));display:flex;align-items:center;justify-content:center}
+  .brand .mark img{width:22px;height:22px}
+  .brand .name{font-weight:800;font-size:15px;letter-spacing:-.01em}
+  .nav-links{display:flex;align-items:center;gap:24px}
+  .nav-links a.lnk{font-weight:600;font-size:13px;color:var(--text-muted)}
+  .nav-links a.lnk:hover{color:var(--text)}
+  .nav-cta{font-weight:700;font-size:13px;color:#fff;background:var(--primary);padding:10px 18px;border-radius:10px}
+
+  /* ---- hero ---- */
+  .hero{position:relative;overflow:hidden;padding:88px 0 96px;
+    background:radial-gradient(120% 90% at 80% -10%,rgba(59,130,246,.28),transparent 60%),
+               radial-gradient(90% 80% at 0% 110%,rgba(139,92,246,.22),transparent 55%)}
+  .hero .mesh{position:absolute;inset:0;width:100%;height:100%;opacity:.5;pointer-events:none}
+  .hero .mesh circle{animation:twinkle 4s ease-in-out infinite}
+  @keyframes twinkle{0%,100%{opacity:.3}50%{opacity:1}}
+  .hero-inner{position:relative}
+  .pill{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:11px;letter-spacing:.1em;color:var(--primary-soft);background:rgba(59,130,246,.14);border:1px solid rgba(59,130,246,.3);padding:8px 15px;border-radius:999px}
+  h1.hero-h1{margin:22px 0 0;font-size:clamp(38px,7vw,64px);line-height:1.02;letter-spacing:-.03em;font-weight:800}
+  .hero-sub{margin:22px 0 0;max-width:580px;font-size:clamp(16px,2.4vw,19px);line-height:1.6;color:var(--text-muted)}
+  .hero-sub strong{color:var(--text);font-weight:700}
+  .hero-cta{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap}
+  .chips{display:flex;gap:12px;margin-top:40px;flex-wrap:wrap}
+  .chip{font-weight:600;font-size:13px;color:var(--text-muted);background:var(--surface);border:1px solid var(--border);padding:10px 16px;border-radius:999px}
+
+  /* ---- section ---- */
+  section.block{padding:72px 0}
+  .eyebrow{margin:0 0 6px;font-weight:700;font-size:12px;letter-spacing:.14em;color:var(--primary)}
+  .h2{margin:0 0 32px;font-weight:800;font-size:clamp(26px,4vw,34px);letter-spacing:-.02em}
+
+  /* ---- agenda timeline ---- */
+  .agenda{background:var(--bg-alt)}
+  .timeline{display:flex;flex-direction:column;gap:14px}
+  .step{display:flex;gap:18px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px 22px}
+  .step .time{font-weight:800;font-size:13px;color:#fff;background:linear-gradient(135deg,var(--primary),var(--accent-2));min-width:64px;text-align:center;padding:9px 0;border-radius:10px}
+  .step .st-t{font-weight:700;font-size:17px;color:var(--text)}
+  .step .st-d{margin-top:5px;font-size:14px;line-height:1.5;color:var(--text-muted)}
+
+  /* ---- register ---- */
+  .register-card{background:linear-gradient(135deg,var(--blue-deep),var(--primary));border-radius:24px;padding:44px 40px;box-shadow:0 18px 50px rgba(59,130,246,.32);display:flex;gap:32px;align-items:center;flex-wrap:wrap;justify-content:space-between}
+  .register-card h2{margin:0;font-weight:800;font-size:clamp(24px,4vw,30px);color:#fff;letter-spacing:-.02em}
+  .register-card p{margin:12px 0 0;max-width:320px;font-size:15px;line-height:1.6;color:rgba(255,255,255,.85)}
+  form.reg{display:flex;flex-direction:column;gap:12px;width:320px;max-width:100%}
+  form.reg input{border:1px solid rgba(255,255,255,.32);background:rgba(255,255,255,.14);border-radius:12px;padding:15px 16px;font:500 14px var(--font-sans);color:#fff}
+  form.reg input::placeholder{color:rgba(255,255,255,.7)}
+  form.reg input:focus{outline:none;border-color:#fff;background:rgba(255,255,255,.22)}
+  form.reg button{margin-top:2px;font-weight:800;font-size:15px;color:var(--blue-deep);background:#fff;padding:15px;border-radius:12px;border:none;cursor:pointer;transition:transform .15s ease}
+  form.reg button:hover{transform:translateY(-2px)}
+  .reg-note{margin-top:12px;font-size:12.5px;color:var(--text-muted);text-align:center}
+  .reg-note.ok{color:#5EEA9B}
+
+  /* ---- faq ---- */
+  details.faq{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:0;margin-bottom:12px;overflow:hidden}
+  details.faq>summary{list-style:none;cursor:pointer;font-weight:700;font-size:15px;color:var(--text);display:flex;justify-content:space-between;align-items:center;padding:18px 20px}
+  details.faq>summary::-webkit-details-marker{display:none}
+  details.faq>summary .sign{color:var(--primary);font-size:20px;font-weight:400;transition:transform .2s ease}
+  details.faq[open]>summary .sign{transform:rotate(45deg)}
+  details.faq .ans{padding:0 20px 18px;font-size:14px;line-height:1.65;color:var(--text-muted)}
+
+  /* ---- footer ---- */
+  footer{border-top:1px solid #1a2438;background:var(--nav);padding:32px 0}
+  .foot-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--text-muted);font-size:13px}
+
+  @media(max-width:640px){
+    .nav-links a.lnk{display:none}
+    section.block{padding:56px 0}
+    .hero{padding:64px 0 72px}
+    .register-card{padding:32px 26px}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top">
+      <span class="mark"><img src="assets/logo-mark-white.svg" alt=""></span>
+      <span class="name">School of AI</span>
+    </a>
+    <nav class="nav-links">
+      <a class="lnk" href="#agenda">Agenda</a>
+      <a class="lnk" href="#faq">FAQ</a>
+      <a class="nav-cta" href="#register">Register</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- hero -->
+  <section class="hero">
+    <svg class="mesh" viewBox="0 0 880 400" preserveAspectRatio="none" aria-hidden="true">
+      <g fill="#3B82F6">
+        <circle cx="120" cy="70" r="2"></circle><circle cx="300" cy="130" r="1.6"></circle>
+        <circle cx="520" cy="60" r="2"></circle><circle cx="720" cy="150" r="1.6"></circle>
+        <circle cx="640" cy="300" r="2"></circle><circle cx="180" cy="320" r="1.6"></circle>
+        <circle cx="420" cy="250" r="2"></circle>
+      </g>
+      <g stroke="#3B82F6" stroke-width=".6" opacity=".4">
+        <line x1="120" y1="70" x2="300" y2="130"></line><line x1="300" y1="130" x2="520" y2="60"></line>
+        <line x1="520" y1="60" x2="720" y2="150"></line><line x1="420" y1="250" x2="640" y2="300"></line>
+        <line x1="180" y1="320" x2="420" y2="250"></line>
+      </g>
+    </svg>
+    <div class="wrap hero-inner">
+      <span class="pill">✦ FREE 1-DAY WORKSHOP · ON YOUR CAMPUS</span>
+      <h1 class="hero-h1">Build a real app<br>in a day, with AI.</h1>
+      <p class="hero-sub">No coding background? Perfect. You'll turn an idea into a working, shipped app in one day — using <strong>Stitch</strong> and <strong>Antigravity</strong>. We call it vibe coding.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#register">Reserve my seat →</a>
+        <a class="btn btn-ghost" href="#agenda">Watch a 60-sec demo</a>
+      </div>
+      <div class="chips">
+        <span class="chip">🔥 50 seats / campus</span>
+        <span class="chip">⏱ 09:30 – 17:00</span>
+        <span class="chip">🎓 Certificate on completion</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- agenda -->
+  <section class="block agenda" id="agenda">
+    <div class="wrap">
+      <p class="eyebrow">YOUR DAY</p>
+      <h2 class="h2">Four steps, one working app</h2>
+      <div class="timeline">
+        <div class="step">
+          <span class="time">09:30</span>
+          <div><div class="st-t">Idea → wireframe in Stitch</div>
+          <div class="st-d">Describe your app in plain English and get a real, editable UI.</div></div>
+        </div>
+        <div class="step">
+          <span class="time">11:00</span>
+          <div><div class="st-t">Vibe-code it in Antigravity</div>
+          <div class="st-d">Prompt real features into existence and see them run instantly.</div></div>
+        </div>
+        <div class="step">
+          <span class="time">14:00</span>
+          <div><div class="st-t">Ship to a live URL</div>
+          <div class="st-d">Deploy your app and share a real link the same afternoon.</div></div>
+        </div>
+        <div class="step">
+          <span class="time">16:30</span>
+          <div><div class="st-t">Demo day &amp; certificate</div>
+          <div class="st-d">Show the room what you built and collect your certificate.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- register -->
+  <section class="block" id="register">
+    <div class="wrap">
+      <div class="register-card">
+        <div>
+          <h2>Reserve your seat</h2>
+          <p>Register with your college email. We'll confirm on WhatsApp within a day.</p>
+        </div>
+        <form class="reg" id="regForm" novalidate>
+          <input name="name" placeholder="Full name" required autocomplete="name">
+          <input name="email" type="email" placeholder="College email" required autocomplete="email">
+          <button type="submit">Confirm my spot →</button>
+          <div class="reg-note" id="regNote">50 seats per campus — no fee, ever.</div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- faq -->
+  <section class="block agenda" id="faq">
+    <div class="wrap">
+      <h2 class="h2" style="margin-bottom:24px">FAQ</h2>
+      <details class="faq" open>
+        <summary>Do I need coding experience?<span class="sign">+</span></summary>
+        <div class="ans">None at all. You'll build entirely with AI tools — describing what you want in plain language.</div>
+      </details>
+      <details class="faq">
+        <summary>What do I need to bring?<span class="sign">+</span></summary>
+        <div class="ans">Just a laptop and your college ID. Tool access is provided for the day.</div>
+      </details>
+      <details class="faq">
+        <summary>Is it free?<span class="sign">+</span></summary>
+        <div class="ans">Yes, free for students at partner campuses. Seats are capped at 50.</div>
+      </details>
+      <details class="faq">
+        <summary>Who can attend<span class="sign">+</span></summary>
+        <div class="ans">Any enrolled student at a partner campus — any year, any major. No design or CS background needed.</div>
+      </details>
+      <details class="faq">
+        <summary>Do I keep what I build?<span class="sign">+</span></summary>
+        <div class="ans">Yes. The app, its code, and the live URL are yours. You leave with a working project and full access to keep iterating.</div>
+      </details>
+      <details class="faq">
+        <summary>What are Stitch and Antigravity?<span class="sign">+</span></summary>
+        <div class="ans">Stitch turns a plain-English idea into a real editable UI. Antigravity is where you prompt features into working code. We provide access to both for the day.</div>
+      </details>
+      <details class="faq">
+        <summary>How many seats are left?<span class="sign">+</span></summary>
+        <div class="ans">Each campus runs with 50 seats and they fill fast. Register with your college email — we confirm spots first-come on WhatsApp.</div>
+      </details>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot-inner">
+    <div class="brand">
+      <span class="mark" style="width:28px;height:28px;border-radius:7px"><img src="assets/logo-mark-white.svg" alt="" style="width:18px;height:18px"></span>
+      <span class="name">School of AI</span>
+    </div>
+    <span>© 2026 School of AI · Vibe Coding Workshop</span>
+  </div>
+</footer>
+
+<script>
+  // Register form — client-side validate + confirm (no backend wired yet)
+  var form = document.getElementById('regForm');
+  var note = document.getElementById('regNote');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = form.name.value.trim();
+    var email = form.email.value.trim();
+    var validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if(!name || !validEmail){
+      note.classList.remove('ok');
+      note.textContent = !name ? 'Enter your full name.' : 'Enter a valid college email.';
+      return;
+    }
+    note.classList.add('ok');
+    note.textContent = 'Seat requested — check WhatsApp for confirmation. 🎉';
+    form.querySelector('button').textContent = 'Requested ✓';
+    form.name.value = ''; form.email.value = '';
+  });
+</script>
+</body>
+</html>
